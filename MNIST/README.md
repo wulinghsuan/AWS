@@ -8,13 +8,13 @@ You choose Amazon Linux 2 AMI (HVM) or Ubuntu.
 
 Type: m5.xlarge → Public Subnet → Enable Auto-assign Public IP → Size (GiB): 15 → SG_Ubuntu → Key.pem
 
-![](https://github.com/wulinghsuan/AWS_MNIST/blob/master/MNIST_5.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/MNIST/MNIST_5.png)
 
 ### (2) Set up machine through PuTTY
 
 Save sessions: MNIST → click on the botton "Save"
 
-![](https://github.com/wulinghsuan/AWS_MNIST/blob/master/MNIST_1.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/MNIST/MNIST_1.png)
 
 Install [Anaconda](https://www.anaconda.com/distribution/) by copy the download URL for Linux
 
@@ -28,7 +28,7 @@ Check if conda works. When getting command is not found after installation, try 
 
     export PATH=~/anaconda3/bin:$PATH
 
-![](https://github.com/wulinghsuan/AWS_MNIST/blob/master/MNIST_2.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/MNIST/MNIST_2.png)
 
 Install jupyter notebook
 
@@ -55,9 +55,9 @@ If you get the following command, try the following code and do it again.
 
     sudo chown -R $USER:$USER anaconda3
 
-![](https://github.com/wulinghsuan/AWS_MNIST/blob/master/MNIST_3.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/MNIST/MNIST_3.png)
 
-![](https://github.com/wulinghsuan/AWS_MNIST/blob/master/MNIST_4.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/MNIST/MNIST_4.png)
 
 Copy [TRAINMACHINE](https://github.com/wulinghsuan/AWS_MNIST/tree/master/TRAINMACHINE) folder to the env
 
@@ -107,7 +107,7 @@ In Ubuntu:
 
 Link IPv4 Public IP on brower.
 
-![](https://github.com/wulinghsuan/AWS_MNIST/blob/master/MNIST_6.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/MNIST/MNIST_6.png)
 
 
 ## 3. APP - BACKEND Server
