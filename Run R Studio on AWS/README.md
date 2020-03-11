@@ -1,5 +1,5 @@
 # AWS
-# Run RStudio on AWS 
+# Run R Studio on AWS 
 
 ## Lanch a instance
 
