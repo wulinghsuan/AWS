@@ -1,122 +1,170 @@
-# AWS_Jumpbox
+# AWS_Jupyter
 
-## Goal: We have to charge
+##
 
-## Build Up Your Architecture
+* Launch Instance
 
-### 1. VPC
+* Check for Python
 
-Create a VPC, named *VPC_JumpBox*, with 10.0.0.0/16 IPv4 CIDR block
+* Execute small script
 
-### 2. Subnets
+### 1. Instance
 
-Create 2 subnets, named *Public_Jump* and *Private_Jump* in the VPC and same availability zone (AZ) with /24 IPv4 CIDR block
+Ubuntu Instance, named *Ins_Ubuntu*
 
-* Public_Jump: 10.0.1.0/24
+Ubuntu Server 18.04 LTS (HVM) → Enable Auto-assign Public IP → Size (GiB): 15 → SG_Ubuntu → Key.pem
 
-* Private_Jump: 10.0.2.0/24
-
-### 3. Internet Gateways (IGW)
-
-Create an internet gateway, named *IGW_Jump*. Attaching it to the VPC
-
-### 4. Instances
-
-Launch 3 instances
-
-#### 2 in Public:
-
-- **NAT Instance**, named *Ins_NAT*
-
-Community AMIs amzn-ami-vpc-nat-hvm → Enable Auto-assign Public IP → SG_NAT → NATKey.pem
-
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_1.png)
-
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_8.png)
-
-- **Jumpbox Instance**, named *Ins_JB*
-
-Amazon Linux 2 AMI (HVM) → Enable Auto-assign Public IP → SG_JB → JBKey.pem
-
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_6.png)
-
-#### 1 in Private:
-
-- **Final Instance**, named *Ins_FI*
-
-Amazon Linux 2 AMI (HVM) → Enable Auto-assign Public IP → SG_FI → JBKey.pem
-
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_7.png)
-
-### 5. Route Tables
-
-Select the private subnet, Private_Jump → Click on the Route Tables tag down below → Enter **Route Table ID** NOT Edit route table association
-
-Edit routes → Add route: Target IGW, choose IGW_Jump
-
-
-### 6. Security Groups
-
-Edit inbound rules of 3 security group corresponding to the instances.
-
-- **SG_NAT**
+SG_Ubuntu:
 
 |Type|Protocol|Port Range|Source|
 | --- | --- | --- | --- |
-|All traffic|All|All|SG_FI|
-
-- **SG_JB**
-
-|Type|Protocol|Port Range|Source|
-| --- | --- | --- | --- |
+|Custom TCP Rule|TCP|8888|0.0.0.0/0|
 |SSH|TCP|22|0.0.0.0/0|
 
-- **SG_FI**
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_1.png)
 
-|Type|Protocol|Port Range|Source|
-| --- | --- | --- | --- |
-|SSH|TCP|22|SG_JB|
+### 2. PuTTY
 
-## Connect With Local Command Prompt and PuTTY
+Transform key pair, Key.pem, to ppk file, named Key.ppk with Puttygem
 
-Transform key pair, JBKey.pem, to ppk file, named *JBKey.pem* with Puttygem
+Session → Host Name (or IP address): ubuntu@18.212.77.101
 
-### 7. PuTTY
+> ubuntu@Ubuntu IPv4 Public IP (**NOT** ec2-user@ this time)
 
-- Session → Host Name (or IP address): *ec2-user@3.230.2.11*
+Save sessions: Key → click on the botton "Save"
 
-> ec2-user@**JumpBox IPv4 Public IP**
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_2.png)
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_2.png)
+### 3. WinSCP
 
-- Connection → SSH → Auth → Browse: choose JBKey.pem location
+Copy Key.pem to ubuntu instance
 
-- Open
+Chick on tools → Import Sites → check on Key, which you just created on step 2
 
-### 8. Local Command Prompt
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_3.png)
 
-- Find the location of Key Pair 
+Copy Hello.py as you always do
 
-cd **location**
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_4.png)
 
-> cd Downloads (I save it in Downloads)
+### 4. Back To PuTTY
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_5.png)
+Everytime you want to install, make sure update first
 
-- Copy Key Pair to Jumpbox 
+> sudo apt-get update -y
 
-scp -i **Key Pair Name** **Key Pair Name** ec2-user@"**JumpBox IPv4 Public IP**:**Key Pair Name**
+Install Python3
 
-> scp -i JBKey.pem JBKey.pem ec2-user@"3.230.2.11":JBKey.pem
+> sudo apt-get install python3-pip -y
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_3.png)
+You can check if it succeed by find out the version
 
-### 9. Back To PuTTY
+> pip3 --version
 
-- Follow the step on AWS
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_5.png)
 
-> chmod 400 JBKey.pem
+Or by running a simple Python script we have copied in Step 3, Hello.py
 
-> ssh -i "JBKey.pem" ec2-user@10.0.2.124
+> python3 filename.py
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_4.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_6.png)
+
+Install Jupyter
+
+> sudo pip3 install jupyter
+
+Binding to an IP
+
+> jupyter notebook --ip=0.0.0.0
+
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_7.png)
+
+POINT: use the code **nohup jupyter notebook --ip=0.0.0.0 &**, if you want to stay connect to virtual environment after shutting down the computer.
+
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_8.png)
+
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_11.png)
+
+You will get an URL started with ip, such as http://ip-10-0-1-69:8888/?token=59b13d15165080f91f86151c4d528bf8b53d2165dc019d2c.
+
+Replace ip-10-0-1-69 by IPv4 Public IP of Ubuntu Instance, 18.212.77.101, and open it on your browser.
+
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_9.png)
+
+### 5. Virtual Environment
+
+Go to Jupyter page you just linked. Click NEW → Terminal
+
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_10.png)
+
+Here are two ways:
+
+- Anaconda
+
+Advantage of Conda: it allows the setup of virtual environments with different Python versions.
+
+In the newly opened terminal create a tmp folder
+
+> mkdir tmp
+
+Get into the folder
+
+> cd tmp/
+
+Download Anaconda
+
+> curl -O https://repo.anaconda.com/archive/Anaconda3-2019.10-Linux-x86_64.sh
+
+> bash Anaconda3-2019.10-Linux-x86_64.sh
+
+Follow the steps, or just keep pressing ENTER then type **yes**
+
+It will take a while...
+
+- Pew
+
+Open a new Terminal, install pew
+
+> pip3 install pew
+
+Create a new environment in Pew, called *NEW*
+
+> pew new NEW
+
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_12.png)
+
+POINT: 
+
+**ls**: find out what the packages/ files are there in side
+
+**exit**: leave pew and go back to Ubuntu
+
+**pew ls**: check which pew are there
+
+**pew workon NEW**: enter the pew, NEW
+
+Keep all packages you have already installed
+
+> pip3 freeze
+
+- ipykernel
+
+In order to link virtual environment to Jupyter, we can do it with ipykernel
+
+Install ipykernel
+
+> pip3 install --user virtualenv
+
+Create a new environment
+
+> python3 -m ipykernel install --user --name=myENV
+
+![](https://github.com/wulinghsuan/AWS/blob/master/Jupyter/Jupyter_13.png)
+
+Download the display on a python script in *nohup.out.txt* file
+
+> cat nohup.out
+
+Disconnect to Jupyter Notebook
+
+> jupyter notebook stop
