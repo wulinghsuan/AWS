@@ -30,15 +30,15 @@ Launch 3 instances
 
 Community AMIs amzn-ami-vpc-nat-hvm → Enable Auto-assign Public IP → SG_NAT → NATKey.pem
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_1.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/Jumpbox/JumpBox_1.png)
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_8.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/Jumpbox/JumpBox_8.png)
 
 - **Jumpbox Instance**, named *Ins_JB*
 
 Amazon Linux 2 AMI (HVM) → Enable Auto-assign Public IP → SG_JB → JBKey.pem
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_6.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/Jumpbox/JumpBox_6.png)
 
 #### 1 in Private:
 
@@ -46,7 +46,7 @@ Amazon Linux 2 AMI (HVM) → Enable Auto-assign Public IP → SG_JB → JBKey.pe
 
 Amazon Linux 2 AMI (HVM) → Enable Auto-assign Public IP → SG_FI → JBKey.pem
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_7.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/Jumpbox/JumpBox_7.png)
 
 ### 5. Route Tables
 
@@ -87,7 +87,7 @@ Transform key pair, JBKey.pem, to ppk file, named *JBKey.pem* with Puttygem
 
 > ec2-user@**JumpBox IPv4 Public IP**
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_2.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/Jumpbox/JumpBox_2.png)
 
 - Connection → SSH → Auth → Browse: choose JBKey.pem location
 
@@ -101,7 +101,7 @@ cd **location**
 
 > cd Downloads (I save it in Downloads)
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_5.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/Jumpbox/JumpBox_5.png)
 
 - Copy Key Pair to Jumpbox 
 
@@ -109,7 +109,7 @@ scp -i **Key Pair Name** **Key Pair Name** ec2-user@"**JumpBox IPv4 Public IP**:
 
 > scp -i JBKey.pem JBKey.pem ec2-user@"3.230.2.11":JBKey.pem
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_3.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/Jumpbox/JumpBox_3.png)
 
 ### 9. Back To PuTTY
 
@@ -119,4 +119,4 @@ scp -i **Key Pair Name** **Key Pair Name** ec2-user@"**JumpBox IPv4 Public IP**:
 
 > ssh -i "JBKey.pem" ec2-user@10.0.2.124
 
-![](https://github.com/wulinghsuan/AWS_Jumpbox/blob/master/JumpBox_4.png)
+![](https://github.com/wulinghsuan/AWS/blob/master/Jumpbox/JumpBox_4.png)
